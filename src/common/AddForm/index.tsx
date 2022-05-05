@@ -1,7 +1,10 @@
 import { Box, Button, Container, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useFriend } from '../../context/FrirendContext';
+import { FriendContextType } from '../../types/Friend.types';
 
 export function AddForm() {
+  const { addFriend } = useFriend() as FriendContextType;
   const [name, setName] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [email, setEmail] = useState('');
@@ -51,7 +54,7 @@ export function AddForm() {
         <Button
           variant="contained"
           onClick={() => {
-            console.log(name, email, walletAddress);
+            addFriend({ walletAddress, name, email });
           }}
         >
           Add Friend
