@@ -3,11 +3,45 @@ import { useState } from 'react';
 import { useFriend } from '../../context/FrirendContext';
 import { FriendContextType } from '../../types/Friend.types';
 
-export function AddForm() {
+export const AddForm = () => {
   const { addFriend } = useFriend() as FriendContextType;
   const [name, setName] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [email, setEmail] = useState('');
+  const [walletAddressError, setWalletAddressError] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  const handleWalletAddressChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const error = /^0x[a-fA-F0-9]{40}$/.test(event.currentTarget.value)
+      ? ''
+      : 'Invalid Address';
+    setWalletAddressError(error);
+    setWalletAddress(event.currentTarget.value);
+  };
+
+  const handleEmailChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const error =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        event.currentTarget.value
+      )
+        ? ''
+        : 'Invaid Email';
+    setEmailError(error);
+    setEmail(event.currentTarget.value);
+  };
+
+  console.log(
+    !!emailError,
+    !!walletAddressError,
+    !name,
+    !email,
+    !walletAddress
+  );
+
   return (
     <Container>
       <Box
@@ -34,32 +68,41 @@ export function AddForm() {
           }}
         />
         <TextField
+          error={!!walletAddressError}
           id="wallet-address"
           label="Wallet Address"
           variant="outlined"
           value={walletAddress}
-          onChange={(e) => {
-            setWalletAddress(e.target.value);
+          onChange={(event) => {
+            handleWalletAddressChange(event);
           }}
+          helperText={walletAddressError}
         />
         <TextField
+          error={!!emailError}
           id="email"
           label="Email"
           variant="outlined"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          onChange={handleEmailChange}
+          helperText={emailError}
         />
         <Button
           variant="contained"
           onClick={() => {
             addFriend({ walletAddress, name, email });
           }}
+          disabled={
+            !!emailError ||
+            !!walletAddressError ||
+            !name ||
+            !email ||
+            !walletAddress
+          }
         >
           Add Friend
         </Button>
       </Box>
     </Container>
   );
-}
+};
