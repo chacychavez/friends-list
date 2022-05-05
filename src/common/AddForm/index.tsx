@@ -34,14 +34,6 @@ export const AddForm = () => {
     setEmail(event.currentTarget.value);
   };
 
-  console.log(
-    !!emailError,
-    !!walletAddressError,
-    !name,
-    !email,
-    !walletAddress
-  );
-
   return (
     <Container>
       <Box
