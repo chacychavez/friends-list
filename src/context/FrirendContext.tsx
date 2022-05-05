@@ -5,19 +5,22 @@ const FriendContext = React.createContext<FriendContextType | null>(null);
 
 interface FriendProviderProps {
   children: React.ReactNode;
-  value: object;
 }
 
-export const FriendProvider: React.FC<FriendProviderProps> = ({
-  children,
-  value = {},
-}) => {
-  const [friends, setFriends] = useState<IFriends>({});
+export const FriendProvider: React.FC<FriendProviderProps> = ({ children }) => {
+  const [friends, setFriends] = useState<IFriends>({
+    '0xcD4AD67BdC3A2F52C7c65241DcDE8dF1519253f8': {
+      walletAddress: '0xcD4AD67BdC3A2F52C7c65241DcDE8dF1519253f8',
+      name: 'Juan Dela Cruz',
+      email: 'jdc@gmail.com',
+    },
+  });
 
   const addFriend = useCallback((friend: IFriend) => {
     setFriends((friends) => {
       const newFriends = { ...friends };
       newFriends[friend.walletAddress] = friend;
+      return newFriends;
     });
   }, []);
 
@@ -31,6 +34,7 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({
           ...partialFriend,
         };
       }
+      return newFriends;
     });
   }, []);
 
@@ -38,6 +42,7 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({
     setFriends((friends) => {
       const newFriends = { ...friends };
       delete newFriends[walletAddress];
+      return newFriends;
     });
   }, []);
 
@@ -47,9 +52,8 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({
       addFriend,
       updateFriend,
       removeFriend,
-      ...value,
     };
-  }, [friends, addFriend, updateFriend, removeFriend, value]);
+  }, [friends, addFriend, updateFriend, removeFriend]);
 
   return (
     <FriendContext.Provider value={contextValue}>
@@ -58,6 +62,6 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({
   );
 };
 
-export const useBackup = () => {
+export const useFriend = () => {
   return useContext(FriendContext);
 };
