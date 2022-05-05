@@ -18,9 +18,23 @@ interface FriendCardProps {
 export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
   const { updateFriend, removeFriend } = useFriend() as FriendContextType;
   const [name, setName] = useState(friend.name);
-  const [walletAddress, setWalletAddress] = useState(friend.walletAddress);
   const [email, setEmail] = useState(friend.email);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
+
+  const [emailError, setEmailError] = useState('');
+
+  const handleEmailChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const error =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        event.currentTarget.value
+      )
+        ? ''
+        : 'Invaid Email';
+    setEmailError(error);
+    setEmail(event.currentTarget.value);
+  };
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -100,19 +114,16 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
                 id="wallet-address"
                 label="Wallet Address"
                 variant="outlined"
-                value={walletAddress}
-                onChange={(e) => {
-                  setWalletAddress(e.target.value);
-                }}
+                value={friend.walletAddress}
               />
               <TextField
+                error={!!emailError}
                 id="email"
                 label="Email"
                 variant="outlined"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                onChange={handleEmailChange}
+                helperText={emailError}
               />
             </Box>
           </CardContent>
@@ -122,7 +133,7 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
               onClick={() => {
                 setShowUpdate(false);
                 updateFriend({
-                  walletAddress,
+                  walletAddress: friend.walletAddress,
                   name,
                   email,
                 });
