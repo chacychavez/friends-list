@@ -13,6 +13,11 @@ import {
   Menu,
   MenuItem,
   Snackbar,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
 } from '@mui/material';
 import { IFriend } from '../../../types/Friend.types';
 import { useFriend } from '../../../context/FrirendContext';
@@ -35,6 +40,8 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
   const [emailError, setEmailError] = useState('');
 
+  const [openRemove, setOpenRemove] = useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(buttonRef.current);
   };
@@ -53,6 +60,10 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
         : 'Invaid Email';
     setEmailError(error);
     setEmail(event.currentTarget.value);
+  };
+
+  const handleCloseRemove = () => {
+    setOpenRemove(false);
   };
 
   return (
@@ -106,12 +117,39 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              removeFriend(friend.walletAddress);
+              handleClose();
+              setOpenRemove(true);
             }}
           >
             Remove
           </MenuItem>
         </Menu>
+        <Dialog
+          open={openRemove}
+          onClose={handleCloseRemove}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Do you want to remove this friend?
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              You cannot undo this action
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseRemove}>Cancel</Button>
+            <Button
+              onClick={() => {
+                removeFriend(friend.walletAddress);
+              }}
+              autoFocus
+            >
+              Remove
+            </Button>
+          </DialogActions>
+        </Dialog>
         {!showUpdate ? (
           <CardContent>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
