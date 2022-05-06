@@ -1,9 +1,21 @@
-import { Box, Button, Container, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  DialogActions,
+  TextField,
+  DialogTitle,
+  DialogContent,
+} from '@mui/material';
 import { useState } from 'react';
 import { useFriend } from '../../context/FrirendContext';
 import { FriendContextType } from '../../types/Friend.types';
+import React from 'react';
 
-export const AddForm = () => {
+interface AddFormProps {
+  handleClose: () => void;
+}
+
+export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
   const { addFriend } = useFriend() as FriendContextType;
   const [name, setName] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
@@ -35,66 +47,72 @@ export const AddForm = () => {
   };
 
   return (
-    <Container>
-      <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '50ch' },
-        }}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="name"
-          label="Name"
-          variant="outlined"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
+    <>
+      <DialogTitle>Add Friend</DialogTitle>
+      <DialogContent>
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '50ch' },
           }}
-        />
-        <TextField
-          error={!!walletAddressError}
-          id="wallet-address"
-          label="Wallet Address"
-          variant="outlined"
-          value={walletAddress}
-          onChange={(event) => {
-            handleWalletAddressChange(event);
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-          helperText={walletAddressError}
-        />
-        <TextField
-          error={!!emailError}
-          id="email"
-          label="Email"
-          variant="outlined"
-          value={email}
-          onChange={handleEmailChange}
-          helperText={emailError}
-        />
-        <Button
-          variant="contained"
-          onClick={() => {
-            addFriend({ walletAddress, name, email });
-          }}
-          disabled={
-            !!emailError ||
-            !!walletAddressError ||
-            !name ||
-            !email ||
-            !walletAddress
-          }
+          noValidate
+          autoComplete="off"
         >
-          Add Friend
-        </Button>
-      </Box>
-    </Container>
+          <TextField
+            id="name"
+            label="Name"
+            variant="outlined"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+          <TextField
+            error={!!walletAddressError}
+            id="wallet-address"
+            label="Wallet Address"
+            variant="outlined"
+            value={walletAddress}
+            onChange={(event) => {
+              handleWalletAddressChange(event);
+            }}
+            helperText={walletAddressError}
+          />
+          <TextField
+            error={!!emailError}
+            id="email"
+            label="Email"
+            variant="outlined"
+            value={email}
+            onChange={handleEmailChange}
+            helperText={emailError}
+          />
+        </Box>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              addFriend({ walletAddress, name, email });
+              handleClose();
+            }}
+            disabled={
+              !!emailError ||
+              !!walletAddressError ||
+              !name ||
+              !email ||
+              !walletAddress
+            }
+          >
+            Add Friend
+          </Button>
+        </DialogActions>
+      </DialogContent>
+    </>
   );
 };
