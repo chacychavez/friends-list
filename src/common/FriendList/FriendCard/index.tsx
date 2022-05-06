@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import {
-  Card,
-  CardHeader,
   Avatar,
-  IconButton,
-  CardContent,
-  Typography,
-  CardActions,
   Box,
-  TextField,
   Button,
-  Menu,
-  MenuItem,
-  Snackbar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
   Dialog,
-  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
+  DialogTitle,
+  IconButton,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Typography,
+  TextField,
 } from '@mui/material';
 import { IFriend } from '../../../types/Friend.types';
 import { useFriend } from '../../../context/FriendContext';
 import { FriendContextType } from '../../../types/Friend.types';
-import { MoreVert, ContentCopy } from '@mui/icons-material';
-import { red } from '@mui/material/colors';
+import { ContentCopy, MoreVert } from '@mui/icons-material';
 
 interface FriendCardProps {
   friend: IFriend;
@@ -42,7 +41,7 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
 
   const [openRemove, setOpenRemove] = useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = () => {
     setAnchorEl(buttonRef.current);
   };
   const handleClose = () => {
@@ -66,12 +65,28 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
     setOpenRemove(false);
   };
 
+  const handleSave = () => {
+    setShowUpdate(false);
+    updateFriend({
+      walletAddress: friend.walletAddress,
+      name,
+      email,
+    });
+  };
+
+  const randomColor = () => {
+    let hex = Math.floor(Math.random() * 0xffffff);
+    let color = '#' + hex.toString(16);
+
+    return color;
+  };
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            <Avatar sx={{ bgcolor: randomColor }} aria-label="recipe">
               {friend.name[0].toUpperCase()}
             </Avatar>
           }
@@ -226,17 +241,7 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
               </Box>
             </CardContent>
             <CardActions>
-              <Button
-                size="small"
-                onClick={() => {
-                  setShowUpdate(false);
-                  updateFriend({
-                    walletAddress: friend.walletAddress,
-                    name,
-                    email,
-                  });
-                }}
-              >
+              <Button size="small" onClick={handleSave}>
                 Save
               </Button>
             </CardActions>
