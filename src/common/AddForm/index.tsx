@@ -1,16 +1,15 @@
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   DialogActions,
-  TextField,
-  DialogTitle,
   DialogContent,
   DialogContentText,
+  DialogTitle,
+  TextField,
 } from '@mui/material';
-import { useState } from 'react';
 import { useFriend } from '../../context/FriendContext';
 import { FriendContextType } from '../../types/Friend.types';
-import React from 'react';
 
 interface AddFormProps {
   handleClose: () => void;
@@ -94,9 +93,7 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
             label="Wallet Address"
             variant="outlined"
             value={walletAddress}
-            onChange={(event) => {
-              handleWalletAddressChange(event);
-            }}
+            onChange={handleWalletAddressChange}
             helperText={walletAddressError}
           />
           <TextField
