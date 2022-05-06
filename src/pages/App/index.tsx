@@ -35,7 +35,7 @@ export function App() {
 
   return (
     <div className="App">
-      <AppBar position="static" sx={{ mb: 5 }}>
+      <AppBar color="transparent" position="static" sx={{ mb: 5 }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -51,7 +51,11 @@ export function App() {
       </AppBar>
       <FriendProvider>
         <Container>
-          <StyledFab variant="extended" onClick={handleClickOpen}>
+          <StyledFab
+            color="primary"
+            variant="extended"
+            onClick={handleClickOpen}
+          >
             <Add />
             Add friend
           </StyledFab>

@@ -109,7 +109,7 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
               !walletAddress
             }
           >
-            Add Friend
+            Save
           </Button>
         </DialogActions>
       </DialogContent>
