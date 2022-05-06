@@ -13,6 +13,7 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({ children }) => {
       walletAddress: '0xcD4AD67BdC3A2F52C7c65241DcDE8dF1519253f8',
       name: 'Juan Dela Cruz',
       email: 'jdc@gmail.com',
+      avatarColor: '#F00F0F',
     },
   });
 

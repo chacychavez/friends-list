@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -74,19 +74,12 @@ export const FriendCard: React.FC<FriendCardProps> = ({ friend }) => {
     });
   };
 
-  const randomColor = () => {
-    let hex = Math.floor(Math.random() * 0xffffff);
-    let color = '#' + hex.toString(16);
-
-    return color;
-  };
-
   return (
     <Card sx={{ minWidth: 275 }}>
       <>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: randomColor }} aria-label="recipe">
+            <Avatar sx={{ bgcolor: friend.avatarColor }} aria-label="recipe">
               {friend.name[0].toUpperCase()}
             </Avatar>
           }

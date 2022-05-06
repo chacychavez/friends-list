@@ -26,7 +26,9 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
 
   const handleAdd = () => {
     setFormError('');
-    const success = addFriend({ walletAddress, name, email });
+    let hex = Math.floor(Math.random() * 0xffffff);
+    let avatarColor = '#' + hex.toString(16);
+    const success = addFriend({ walletAddress, name, email, avatarColor });
     if (success) {
       handleClose();
     } else {

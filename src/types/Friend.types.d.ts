@@ -2,6 +2,7 @@ export interface IFriend  {
   walletAddress: string;
   email: string;
   name: string;
+  avatarColor: string
 }
 
 export interface IFriends {
