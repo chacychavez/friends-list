@@ -2,10 +2,10 @@ export interface IFriend  {
   walletAddress: string;
   email: string;
   name: string;
-};
+}
 
 export interface IFriends {
-  [walletAddress: string]: Friend;
+  [walletAddress: string]: IFriend;
 }
 
 
