@@ -16,13 +16,20 @@ export const FriendProvider: React.FC<FriendProviderProps> = ({ children }) => {
     },
   });
 
-  const addFriend = useCallback((friend: IFriend) => {
-    setFriends((friends) => {
-      const newFriends = { ...friends };
-      newFriends[friend.walletAddress] = friend;
-      return newFriends;
-    });
-  }, []);
+  const addFriend = useCallback(
+    (friend: IFriend) => {
+      if (friend.walletAddress in friends) {
+        return false;
+      }
+      setFriends((friends) => {
+        const newFriends = { ...friends };
+        newFriends[friend.walletAddress] = friend;
+        return newFriends;
+      });
+      return true;
+    },
+    [friends]
+  );
 
   const updateFriend = useCallback((partialFriend: Partial<IFriend>) => {
     setFriends((friends) => {

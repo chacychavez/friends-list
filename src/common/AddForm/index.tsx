@@ -5,6 +5,7 @@ import {
   TextField,
   DialogTitle,
   DialogContent,
+  DialogContentText,
 } from '@mui/material';
 import { useState } from 'react';
 import { useFriend } from '../../context/FriendContext';
@@ -22,6 +23,17 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
   const [email, setEmail] = useState('');
   const [walletAddressError, setWalletAddressError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [formError, setFormError] = useState('');
+
+  const handleAdd = () => {
+    setFormError('');
+    const success = addFriend({ walletAddress, name, email });
+    if (success) {
+      handleClose();
+    } else {
+      setFormError('Duplicate wallet address');
+    }
+  };
 
   const handleWalletAddressChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -50,6 +62,9 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
     <>
       <DialogTitle>Add Friend</DialogTitle>
       <DialogContent>
+        <DialogContentText style={{ color: 'red' }}>
+          {formError}
+        </DialogContentText>
         <Box
           component="form"
           sx={{
@@ -97,10 +112,7 @@ export const AddForm: React.FC<AddFormProps> = ({ handleClose }) => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={() => {
-              addFriend({ walletAddress, name, email });
-              handleClose();
-            }}
+            onClick={handleAdd}
             disabled={
               !!emailError ||
               !!walletAddressError ||
