@@ -7,7 +7,7 @@ import {
   DialogContent,
 } from '@mui/material';
 import { useState } from 'react';
-import { useFriend } from '../../context/FrirendContext';
+import { useFriend } from '../../context/FriendContext';
 import { FriendContextType } from '../../types/Friend.types';
 import React from 'react';
 

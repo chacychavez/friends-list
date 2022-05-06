@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { FriendList } from '../../common/FriendList';
-import { FriendProvider } from '../../context/FrirendContext';
+import { FriendProvider } from '../../context/FriendContext';
 import { styled } from '@mui/material/styles';
 
 const StyledFab = styled(Fab)({

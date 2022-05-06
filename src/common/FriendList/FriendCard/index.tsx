@@ -20,7 +20,7 @@ import {
   DialogContentText,
 } from '@mui/material';
 import { IFriend } from '../../../types/Friend.types';
-import { useFriend } from '../../../context/FrirendContext';
+import { useFriend } from '../../../context/FriendContext';
 import { FriendContextType } from '../../../types/Friend.types';
 import { MoreVert, ContentCopy } from '@mui/icons-material';
 import { red } from '@mui/material/colors';

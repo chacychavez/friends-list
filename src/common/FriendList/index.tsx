@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { FriendCard } from './FriendCard';
-import { useFriend } from '../../context/FrirendContext';
+import { useFriend } from '../../context/FriendContext';
 import { IFriend, FriendContextType } from '../../types/Friend.types';
 
 export function FriendList() {
